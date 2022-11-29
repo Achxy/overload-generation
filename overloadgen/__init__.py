@@ -22,4 +22,3 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 from overloadgen.analyzer import get_overload_source
-from overloadgen.typing import clear_overloads, get_overloads, overload

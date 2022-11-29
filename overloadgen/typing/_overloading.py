@@ -21,7 +21,28 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-import sys
-from typing import Final
+from collections.abc import Callable, Iterable
+from typing import Generic
 
-IS_GREATER_THAN_OR_EQ_311: Final[bool] = sys.version_info >= (3, 11)
+from overloadgen._typeshack import Fn, P, R
+
+
+class OverloadSignatureStore(Generic[P, R]):
+    def __init__(
+        self, function: Callable[P, R], signatures: Iterable[Callable] = ()
+    ) -> None:
+        self.function = function
+        self._signatures: list[Callable] = list(signatures)
+
+    def __call__(self, *args: P.args, **kwds: P.kwargs) -> R:
+        return self.function(*args, **kwds)
+
+    def overload(self, func: Fn) -> Fn:
+        self._signatures.append(func)
+        return func
+
+    def clear_overloads(self) -> None:
+        self._signatures.clear()
+
+    def get_overloads(self):
+        return self._signatures

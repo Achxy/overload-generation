@@ -21,6 +21,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from typing import TypeAlias
+import sys
+from collections.abc import Callable
+from typing import ParamSpec, TypeAlias, TypeVar
+
+R = TypeVar("R")
+Fn = TypeVar("Fn", bound=Callable)
+P = ParamSpec("P")
 
 All: TypeAlias = tuple[str, ...]
+
+OVERLOAD_RETRIEVAL_SUPPORTED = sys.version_info >= (3, 11)

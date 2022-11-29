@@ -21,11 +21,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+import typing
+from collections.abc import Callable
+
+from overloadgen.typing._helpers import confirm_version
+from overloadgen.typing._overloading import OverloadSignatureStore
 
 
-class FunctionDidNotResolve(RuntimeError):
-    def __init__(
-        self,
-        msg: str = "The __func__ attribute of the callable returned None",
-    ) -> None:
-        super().__init__(msg)
+def signature_store(function) -> OverloadSignatureStore:
+    return OverloadSignatureStore(function)
+
+
+def get_overloads(function) -> list[Callable]:
+    if isinstance(function, OverloadSignatureStore):
+        return list(function.get_overloads())
+    confirm_version()
+    return getattr(typing, "get_overloads")(function)
+
+
+def clear_overloads(function) -> None:
+    if isinstance(function, OverloadSignatureStore):
+        function.clear_overloads()
+    confirm_version()
+    getattr(typing, "clear_overloads")()
+
+
+def convert_to_signature_store(
+    function: Callable | OverloadSignatureStore,
+) -> OverloadSignatureStore:
+    if isinstance(function, OverloadSignatureStore):
+        return function
+    signatures = get_overloads(function)
+    return OverloadSignatureStore(function, signatures)
