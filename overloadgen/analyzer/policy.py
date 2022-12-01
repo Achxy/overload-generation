@@ -21,19 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from sys import version
-
-from overloadgen._typeshack import OVERLOAD_RETRIEVAL_SUPPORTED
+from enum import Enum, auto
 
 
-def confirm_version():
-    """
-    Confirm that the current python version is above the OVERLOAD_RETRIEVAL_SUPPORTED
-    (ie, when options to retrieve overloads were introduced in `typing`)
-
-    Raises:
-        RuntimeError: Current python version is below OVERLOAD_RETRIEVAL_SUPPORTED
-    """
-    if OVERLOAD_RETRIEVAL_SUPPORTED:
-        return
-    raise RuntimeError(f"overload retrieval is not supported in {version}")
+class DefaultArgumentInferencePolicy(Enum):
+    OVERLOAD_INFERENCE = auto()
+    IMPLEMENTATION_INFERENCE = auto()

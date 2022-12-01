@@ -22,24 +22,58 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 import typing
-from collections.abc import Callable
+from collections.abc import Iterable
+from types import FunctionType
 
+from overloadgen._typeshack import All, ImplementationFunction, OverloadFunction
 from overloadgen.typing._helpers import confirm_version
 from overloadgen.typing._overloading import OverloadSignatureStore
 
+__all__: All = (
+    "signature_store",
+    "get_overloads",
+    "clear_overloads",
+    "convert_to_signature_store",
+)
 
-def signature_store(function) -> OverloadSignatureStore:
+
+def signature_store(function: FunctionType) -> OverloadSignatureStore:
+    """
+    Instantiate and return an `OverloadSignatureStore` which is structurually
+    similar to `functools.singledispatch` but does not have any runtime effects.
+
+    Args:
+        function (FunctionType): The function implementation
+
+    Returns:
+        OverloadSignatureStore: Container holding implementation and overload functions
+    """
     return OverloadSignatureStore(function)
 
 
-def get_overloads(function) -> list[Callable]:
+def get_overloads(function: ImplementationFunction) -> Iterable[OverloadFunction]:
+    """
+    Reutrns an iterable of overloads for a given implementation function
+
+    Args:
+        function (ImplementationFunction): Implementation function
+
+    Returns:
+        Iterable[OverloadFunction]: Overload Functions
+    """
     if isinstance(function, OverloadSignatureStore):
         return list(function.get_overloads())
     confirm_version()
     return getattr(typing, "get_overloads")(function)
 
 
-def clear_overloads(function) -> None:
+def clear_overloads(function: ImplementationFunction) -> None:
+    """
+    Clears the available overloads for a given implementation function
+
+    Args:
+        function (Function): Implementation function
+    """
     if isinstance(function, OverloadSignatureStore):
         function.clear_overloads()
     confirm_version()
@@ -47,8 +81,18 @@ def clear_overloads(function) -> None:
 
 
 def convert_to_signature_store(
-    function: Callable | OverloadSignatureStore,
+    function: ImplementationFunction,
 ) -> OverloadSignatureStore:
+    """
+    Convert the given implementation function and return an `OverloadSignatureStore`
+    if the implementation is already a signature store then a no-op return is performed
+
+    Args:
+        function (ImplementationFunction): Implementation function
+
+    Returns:
+        OverloadSignatureStore: Container holding implementation and overload functions
+    """
     if isinstance(function, OverloadSignatureStore):
         return function
     signatures = get_overloads(function)

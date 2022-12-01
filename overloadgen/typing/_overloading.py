@@ -22,27 +22,55 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 from collections.abc import Callable, Iterable
-from typing import Generic
+from typing import ClassVar, Generic
 
-from overloadgen._typeshack import Fn, P, R
+from overloadgen._typeshack import Fn, OverloadFunction, Parameters, Result, Slots
 
 
-class OverloadSignatureStore(Generic[P, R]):
+class OverloadSignatureStore(Generic[Parameters, Result]):
+    """
+    A container class for containing implementation function and
+    it's overloads
+    """
+
+    __slots__: ClassVar[Slots] = ("function", "_signatures")
+
     def __init__(
-        self, function: Callable[P, R], signatures: Iterable[Callable] = ()
+        self,
+        function: Callable[Parameters, Result],
+        signatures: Iterable[OverloadFunction] = (),
     ) -> None:
         self.function = function
-        self._signatures: list[Callable] = list(signatures)
+        self._signatures = list(signatures)
 
-    def __call__(self, *args: P.args, **kwds: P.kwargs) -> R:
+    def __call__(self, *args: Parameters.args, **kwds: Parameters.kwargs) -> Result:
         return self.function(*args, **kwds)
 
     def overload(self, func: Fn) -> Fn:
+        """
+        Mark the given function as an overload for the implementation function
+        and reutrn it immediately
+
+        Args:
+            func (Fn): The overload function
+
+        Returns:
+            Fn: The same overload function after being marked as overload
+        """
         self._signatures.append(func)
         return func
 
     def clear_overloads(self) -> None:
+        """
+        Clears the available overloads
+        """
         self._signatures.clear()
 
-    def get_overloads(self):
+    def get_overloads(self) -> Iterable[OverloadFunction]:
+        """
+        Returns an iterable of functions that were marked as overloads
+
+        Returns:
+            Iterable[OverloadFunction]: Functions that were marked as overloads
+        """
         return self._signatures
