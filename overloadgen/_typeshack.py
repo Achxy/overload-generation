@@ -21,10 +21,28 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from .._typeshack import All
-from ._api import get_overload_nodes, get_overload_source
+from __future__ import annotations
 
-__all__: All = (
-    "get_overload_nodes",
-    "get_overload_source",
-)
+import sys
+from ast import AsyncFunctionDef, FunctionDef
+from types import FunctionType
+from typing import TYPE_CHECKING, Callable, Final, ParamSpec, TypeAlias, TypeVar
+
+if TYPE_CHECKING:
+    from .overloading._overloading import OverloadSignatureStore
+else:
+    OverloadSignatureStore = TypeVar("OverloadSignatureStore")
+
+
+Parameters = ParamSpec("Parameters")
+Result = TypeVar("Result")
+Fn = TypeVar("Fn", bound=FunctionType)
+
+All: TypeAlias = tuple[str, ...]
+Slots: TypeAlias = tuple[str, ...]
+
+ImplementationFunction: TypeAlias = FunctionType | OverloadSignatureStore
+OverloadFunction: TypeAlias = FunctionType | Callable
+AnyFunctionDefinition: TypeAlias = FunctionDef | AsyncFunctionDef
+
+OVERLOAD_RETRIEVAL_SUPPORTED: Final[bool] = sys.version_info >= (3, 11)

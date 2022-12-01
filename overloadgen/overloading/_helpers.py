@@ -21,10 +21,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from .._typeshack import All
-from ._api import get_overload_nodes, get_overload_source
+from sys import version
 
-__all__: All = (
-    "get_overload_nodes",
-    "get_overload_source",
-)
+from .._typeshack import OVERLOAD_RETRIEVAL_SUPPORTED
+
+
+def confirm_version():
+    """
+    Confirm that the current python version is above the OVERLOAD_RETRIEVAL_SUPPORTED
+    (ie, when options to retrieve overloads were introduced in `typing`)
+
+    Raises:
+        RuntimeError: Current python version is below OVERLOAD_RETRIEVAL_SUPPORTED
+    """
+    if OVERLOAD_RETRIEVAL_SUPPORTED:
+        return
+    raise RuntimeError(f"overload retrieval is not supported in {version}")
