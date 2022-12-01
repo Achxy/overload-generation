@@ -26,7 +26,7 @@ from inspect import getsource
 
 from ._analyze import OverloadNodeSourceGenerator
 from ._helpers import get_fn_from_module
-from ..typing import get_overloads
+from ..overloading import get_overloads
 
 
 def get_overload_nodes(func):
