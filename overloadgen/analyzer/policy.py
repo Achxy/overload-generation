@@ -21,10 +21,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from .._typeshack import All
-from ._api import get_overload_nodes, get_overload_source
+from enum import Enum, auto
 
-__all__: All = (
-    "get_overload_nodes",
-    "get_overload_source",
-)
+
+class DefaultArgumentInferencePolicy(Enum):
+    """
+    Defines the policy by which default values should be inferred.
+
+    If `OVERLOAD_INFERENCE` variant is used then default values are concluded based
+    on the kwargs in the function signature of the overload.
+    Similarly, for `IMPLEMENTATION_INFERENCE` variant, the new overloads will be generated
+    on the basis of the inference of the signature of the implementation function completely
+    disregarding overload kwargs.
+    """
+
+    OVERLOAD_INFERENCE = auto()
+    IMPLEMENTATION_INFERENCE = auto()

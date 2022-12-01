@@ -22,9 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 from .._typeshack import All
-from ._api import get_overload_nodes, get_overload_source
+from ._api import (
+    clear_overloads,
+    convert_to_signature_store,
+    get_overloads,
+    signature_store,
+)
 
 __all__: All = (
-    "get_overload_nodes",
-    "get_overload_source",
+    "clear_overloads",
+    "convert_to_signature_store",
+    "get_overloads",
+    "signature_store",
 )
