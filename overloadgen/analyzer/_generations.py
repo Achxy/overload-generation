@@ -24,13 +24,15 @@ SOFTWARE.
 from ast import FunctionDef, Name
 from copy import deepcopy
 
+from .._typeshack import AnyFunctionDefinition
+
 # TODO & FIXME: Implement policy checking on inference
 #               Generate full permutations
 
 
 class BaseGeneration:
     def __init__(
-        self, overload: FunctionDef, *, default_annotation: Name | None
+        self, overload: AnyFunctionDefinition, *, default_annotation: Name | None
     ) -> None:
         ovargs = overload.args
         self.overload = overload
@@ -64,7 +66,7 @@ class BaseGeneration:
 
 class PossibilityGeneration:
     def __init__(
-        self, overload: FunctionDef, *, default_annotation: Name | None
+        self, overload: AnyFunctionDefinition, *, default_annotation: Name | None
     ) -> None:
         self.overload = overload
         self.base = BaseGeneration(overload, default_annotation=default_annotation)

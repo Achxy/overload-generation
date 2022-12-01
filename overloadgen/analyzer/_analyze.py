@@ -21,16 +21,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from ast import FunctionDef, Load, Name
+from ast import Load, Name
 from collections.abc import Iterable
 
+from .._typeshack import AnyFunctionDefinition
 from ._generations import PossibilityGeneration
 
 
 class OverloadNodeSourceGenerator:
     def __init__(
         self,
-        overloads: Iterable[FunctionDef],
+        overloads: Iterable[AnyFunctionDefinition],
         default_annotation: str | None = "object",
     ) -> None:
         self.overlods = overloads
@@ -44,7 +45,7 @@ class OverloadNodeSourceGenerator:
         for overload in self.overlods:
             yield from self.create_default_possibilities(overload)
 
-    def create_default_possibilities(self, fndef: FunctionDef):
+    def create_default_possibilities(self, fndef: AnyFunctionDefinition):
         yield from PossibilityGeneration(
             fndef, default_annotation=self.default_annotation
         )
