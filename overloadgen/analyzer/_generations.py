@@ -24,6 +24,9 @@ SOFTWARE.
 from ast import FunctionDef, Name
 from copy import deepcopy
 
+# TODO & FIXME: Implement policy checking on inference
+#               Generate full permutations
+
 
 class BaseGeneration:
     def __init__(
