@@ -21,12 +21,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from ast import FunctionDef, Module
+from ast import Module
+
+from .._typeshack import AnyFunctionDefinition
 
 
-def get_fn_from_module(module: Module) -> FunctionDef:
+def get_fn_from_module(module: Module) -> AnyFunctionDefinition:
     (fndef,) = module.body
-    if not isinstance(fndef, FunctionDef):
+    if not isinstance(fndef, AnyFunctionDefinition):
         msg = f"Expected parsed type to be of FunctionDef got {type(fndef)!r}"
         raise TypeError(msg)
     return fndef

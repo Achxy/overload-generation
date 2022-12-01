@@ -24,9 +24,9 @@ SOFTWARE.
 from ast import parse, unparse
 from inspect import getsource
 
+from ..overloading import get_overloads
 from ._analyze import OverloadNodeSourceGenerator
 from ._helpers import get_fn_from_module
-from ..overloading import get_overloads
 
 
 def get_overload_nodes(func):
