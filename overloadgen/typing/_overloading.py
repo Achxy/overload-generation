@@ -24,7 +24,7 @@ SOFTWARE.
 from collections.abc import Callable, Iterable
 from typing import ClassVar, Generic
 
-from overloadgen._typeshack import Fn, OverloadFunction, Parameters, Result, Slots
+from .._typeshack import Fn, OverloadFunction, Parameters, Result, Slots
 
 
 class OverloadSignatureStore(Generic[Parameters, Result]):

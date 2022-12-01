@@ -23,7 +23,7 @@ SOFTWARE.
 """
 from sys import version
 
-from overloadgen._typeshack import OVERLOAD_RETRIEVAL_SUPPORTED
+from .._typeshack import OVERLOAD_RETRIEVAL_SUPPORTED
 
 
 def confirm_version():

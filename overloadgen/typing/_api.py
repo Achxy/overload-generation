@@ -25,9 +25,9 @@ import typing
 from collections.abc import Iterable
 from types import FunctionType
 
-from overloadgen._typeshack import All, ImplementationFunction, OverloadFunction
-from overloadgen.typing._helpers import confirm_version
-from overloadgen.typing._overloading import OverloadSignatureStore
+from .._typeshack import All, ImplementationFunction, OverloadFunction
+from ._helpers import confirm_version
+from ._overloading import OverloadSignatureStore
 
 __all__: All = (
     "signature_store",

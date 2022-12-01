@@ -24,7 +24,7 @@ SOFTWARE.
 from ast import FunctionDef, Load, Name
 from collections.abc import Iterable
 
-from overloadgen.analyzer._generations import PossibilityGeneration
+from ._generations import PossibilityGeneration
 
 
 class OverloadNodeSourceGenerator:

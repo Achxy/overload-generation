@@ -29,7 +29,7 @@ from types import FunctionType
 from typing import TYPE_CHECKING, Callable, Final, ParamSpec, TypeAlias, TypeVar
 
 if TYPE_CHECKING:
-    from overloadgen.typing._overloading import OverloadSignatureStore
+    from .typing._overloading import OverloadSignatureStore
 else:
     OverloadSignatureStore = TypeVar("OverloadSignatureStore")
 
